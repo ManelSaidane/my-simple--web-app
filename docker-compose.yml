@@ -1,0 +1,30 @@
+version: '3.8'  # Assurez-vous d'inclure cette ligne
+
+services:
+  frontend:
+    image: nginx:alpine
+    container_name: frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+  backend:
+    image: node:14
+    container_name: backend
+    environment:
+      - DATABASE_URL=postgres://user:password@db:5432/mydatabase
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13
+    container_name: db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
